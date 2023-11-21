@@ -7,6 +7,10 @@
 -- @table Object
 local Object = {
     
+    metatable = function(_table)
+        return getmetatable(_table)
+    end,
+
     -- @param table _object_template
     -- @return table
     create = function(_object_template)
@@ -19,13 +23,18 @@ local Object = {
                 metatable[key] = _object_template[key]
             end
         end
-
-        local object_template = setmetatable({}, metatable)
         
         return {
             -- @param table _constructor
             -- @return table object_template
             new = function(_constructor)
+
+                local _attributes = {}
+                for index, key in ipairs(metatable.__index.attributes) do
+                    _attributes[key] = nil
+                end
+                
+                local object_template = setmetatable({attributes = _attributes}, metatable)
 
                 local constructor = _constructor or nil
 

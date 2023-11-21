@@ -8,21 +8,56 @@ local Object = require('onigiri.prototype.Object')
 
 -- @table String
 local String = Object.create({
-    attributes = {wrapper_string},
+    attributes = {'wrapped_string'},
 
     constructor = function(self, _attributes)
 
-        local wrapper_string = _attributes.wrapper_string or _attributes[1]
+        local wrapped_string = _attributes.wrapped_string or _attributes[1]
 
-        self.attributes.wrapper_string = wrapper_string
+        self.attributes.wrapped_string = wrapped_string
+    end,
+
+    content = function(self)
+        return self.attributes.wrapped_string
+    end,
+
+    upper = function(self)
+
+        local constructor = {
+            string.upper(self:content())
+        }
+        
+        return self:new(constructor)
+    end,
+
+    lower = function(self)
+
+        local constructor = {
+            string.lower(self:content())
+        }
+
+        return self:new(constructor)
+    end,
+
+    format = function(self, ...)
+
+        local constructor = {
+            string.format(self:content(), table.unpack(...))
+        }
+
+        return self:new(constructor, constructor)
     end,
 
     len = function(self)
-        return #self.attributes.wrapper_string
+        return string.len(self:content())
+    end,
+
+    new = function(self, _constructor)
+        return Object.create(self).new(_constructor)
     end,
 
     __tostring = function(self)
-        return self.attributes.wrapper_string
+        return self:content()
     end
 })
 
