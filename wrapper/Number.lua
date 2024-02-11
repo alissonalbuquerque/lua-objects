@@ -27,17 +27,32 @@ local Number = Object.create({
 
     -- @return wrapper.Number
     abs = function(self)
-        return math.abs(self:content())
-    end,
 
-    -- @return wrapper.Number
-    floor = function(self)
-        return math.floor(self:content())
+        local constructor = {
+            math.abs(self:content())
+        }
+
+        return self:new(constructor)
     end,
 
     -- @return wrapper.Number
     ceil = function(self)
-        return math.ceil(self:content())
+
+        local constructor = {
+            math.ceil(self:content())
+        }
+
+        return self:new(constructor)
+    end,
+
+    -- @return wrapper.Number
+    floor = function(self)
+
+        local constructor = {
+            math.floor(self:content())
+        }
+
+        return self:new(constructor)
     end,
 
     -- @return wrapper.Number
@@ -45,13 +60,22 @@ local Number = Object.create({
 
         local digits = digits or 2
         local fmt = string.format("%%.%df", digits)
-        
-        return tonumber(string.format(fmt, self:content()))
+
+        local cosntructor = {
+            tonumber(string.format(fmt, self:content()))
+        }
+
+        return self:new(cosntructor)
     end,
 
-    -- @return string
+    -- @return number
     content = function(self)
         return self.attributes.wrapped_number
+    end,
+
+    -- @return number
+    val = function(self)
+        return self:content()
     end,
 
     -- @return string
