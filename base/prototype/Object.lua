@@ -4,13 +4,9 @@
 
 --]]
 
--- @table Object
+-- @var table
 local Object = {
     
-    metatable = function(_table)
-        return getmetatable(_table)
-    end,
-
     -- @param table _object_template
     -- @return table
     create = function(_object_template)
@@ -49,6 +45,21 @@ local Object = {
                 return object_template
             end
         }
+    end,
+
+    -- @return table|nil
+    metatable = function(_table)
+        return getmetatable(_table)
+    end,
+
+    -- @return string
+    type = function(_path)
+        return string.format("base.prototype.Object<%s>", _path)
+    end,
+
+    -- @return string
+    gettype = function(_object)
+        return _object:gettype()
     end,
 }
 
