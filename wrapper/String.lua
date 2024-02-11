@@ -4,7 +4,7 @@
 
 --]]
 
-local Object = require('onigiri.prototype.Object')
+local Object = require('base.prototype.Object')
 
 -- @table String
 local String = Object.create({
